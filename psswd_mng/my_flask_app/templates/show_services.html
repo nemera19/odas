@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>your services</title>
+</head>
+<body>
+    All your services!
+    <ol>
+        {% for service in services %}
+        <li> {{service.service}} pass: {{service.password}}</li>
+        <button onclick="myFun(service.password)">Copy password</button>
+        <script>
+            function myFun(password){
+                alert(password);
+            }
+        </script>
+        {% endfor %}
+    </ol>
+
+</body>
+</html>
