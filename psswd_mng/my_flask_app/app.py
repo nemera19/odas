@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import time
 import math
-import string
 
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, json
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -34,15 +33,10 @@ class Service(db.Model):
 
 @app.route('/')
 def hello_world():
-    login = "secret"
-    password = "2xSjZLm8gBnJ3M25TnTxJMmRz"
-    email = "-"
-    u = User(login=login, password=password, email=email)
-    try:
-        db.session.add(u)
-        db.session.commit()
-    except:
-        "-_-"
+    # login = "secret"
+    # password = "2xSjZLm8gBnJ3M25TnTxJMmRz"
+    # email = "-"
+    # u = User(login=login, password=password, email=email)
     return render_template("index.html")
 
 
@@ -110,16 +104,52 @@ def show_services():
 @app.route('/auth', methods=['POST', 'GET'])
 def auth():
     global is_logged
+    is_logged = ""
+    n = 0
     if request.method == "POST":
         login = request.form['login']
         password = request.form['password']
-
+        if login == 'secret':
+            return redirect('/oops')
+        elif not verify_psswd(password):
+            return "Your data is not acceptable!!"
+        elif not verify_data(login):
+            return "Your data is not acceptable!!"
         u = db.session.query(User).filter_by(login=login).first()
         if u is not None:
             if password == u.password:
                 is_logged = u.login
+                time.sleep(0.5)
                 return redirect('/user')
+    n += 1
+    if n == 10:
+        time.sleep(180)
     return render_template("sign_in.html")
+
+
+@app.route('/oops')
+def go_away():
+    return render_template('oops.html')
+
+
+@app.route('/service_password', methods=['POST', 'GET'])
+def your_pass():
+    global is_logged
+    if request.method == "POST":
+        service = request.form['service']
+        master_password = request.form['master_password']
+        if not verify_data(master_password):
+            return "Your data is not acceptable!!"
+        if not verify_data(service):
+            return "Your data is not acceptable!!"
+        try:
+            s = db.session.query(Service).filter_by(service=service, login=is_logged).first()
+            if s is not None:
+                p = s.password
+                return p
+        except:
+            return "nope"
+    return render_template('top_secret.html')
 
 
 def verify_psswd(password):
@@ -142,7 +172,6 @@ def verify_data(login):
 
 
 def code_password(master_password, password):
-
     return password
 
 
@@ -162,4 +191,4 @@ def count_ent(text):
 
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')

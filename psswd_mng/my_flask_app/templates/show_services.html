@@ -8,13 +8,8 @@
     All your services!
     <ol>
         {% for service in services %}
-        <li> {{service.service}} pass: {{service.password}}</li>
-        <button onclick="myFun(service.password)">Copy password</button>
-        <script>
-            function myFun(password){
-                alert(password);
-            }
-        </script>
+        <li> {{service.service}} </li>
+        <input type="button" value="give me password" onclick='location.href="/service_password"'>
         {% endfor %}
     </ol>
 
