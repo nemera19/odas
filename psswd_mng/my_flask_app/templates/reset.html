@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>reset</title>
+</head>
+<body>
+Please insert your email<br>
+ <form method = "post">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+<input type="email" name="email" id="email" placeholder="email" class="form-control"><br>
+<input type="submit" value="send me link">
+ </form>
+</body>
+</html>

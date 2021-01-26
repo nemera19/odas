@@ -2,9 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>top_secret</title>
+    <title>Please sign in</title>
+        <script>
+        function late(){
+            setTimeout(() => { }, 300);
+            }
+        </script>
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}{{ messages[0] }}.
+    {% endif %}
+    {% endwith %}
  <form method = "post">
         {{ form.csrf_token }}
             {% for field in form if field.name != "csrf_token" %}

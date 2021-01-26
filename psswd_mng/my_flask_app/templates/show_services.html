@@ -5,11 +5,19 @@
     <title>your services</title>
 </head>
 <body>
-    All your services!
+    <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    </form>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}{{ messages[0] }}.
+    {% endif %}
+    {% endwith %}
+    <br>All your services!
     <ol>
         {% for service in services %}
-        <li> {{service.service}} </li>
-        <input type="button" value="give me password" onclick='location.href="/service_password"'>
+        <li> {{ service.service }} </li>
+        <input type="button" value="copy password to clipboard" onclick='location.href="/service_password"'><br>
+        <input type="button" value="add service" onclick='location.href="/user"'><br>
         {% endfor %}
     </ol>
 

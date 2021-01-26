@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Services</title>
+</head>
+<body>
+    Hey there, {{login}}! Wanna add some services? <br>Please write down the service's name, password and master password:
+       <form method = "post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <input type="text" name="service" id="service" placeholder="service" class="form-control"><br>
+        <input type="password" name="password" id="password" placeholder="password" class="form-control"><br>
+        <input type="password" name="master_password" id="master_password" placeholder="master_password" class="form-control"><br>
+        <input type="submit" class="btn btn-success" value="Add">
+        <input type="button" value="Show my services" onclick='location.href="show_services"'>
+        <input type="button" value="Log out" onclick='location.href="/logout"'>
+    </form>
+</body>
+</html>
